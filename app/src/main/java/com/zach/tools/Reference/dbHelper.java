@@ -8,11 +8,9 @@ import java.util.*;
 public class dbHelper extends SQLiteOpenHelper
 {
 	private static final String DB_NAME="Delivery.db";
-	private String DB_TABLE;
 	
-	public dbHelper(Context con, String table){
+	public dbHelper(Context con){
 		super(con,DB_NAME,null,1);
-		DB_TABLE=table;
 	}
 
 	@Override
@@ -27,25 +25,27 @@ public class dbHelper extends SQLiteOpenHelper
 		setupUpgrade(db);
 	}
 
-	public void updateData(String table, int id, Bundle bndl){
-		
+	public void updateData(String table, int id, ContentValues bndl){
+		SQLiteDatabase db = getWritableDatabase();
+		db.update(table,bndl," id = ? ",new String[]{Integer.toString(id)});
 	}
 
-	public void saveData(String table, Bundle bndl){
-		
+	public void saveData(String table, ContentValues bndl){
+		SQLiteDatabase db = getWritableDatabase();
+		db.insert(table,null,bndl);
 	}
 
-	public ArrayList<Bundle> loadData(String table){ 
+	public ArrayList<ContentValues> loadData(String table){ 
 		SQLiteDatabase db = getReadableDatabase();
 		Cursor curs = db.rawQuery("SELECT * FROM "+table,null);
-		ArrayList<Bundle> results = new ArrayList<Bundle>();
+		ArrayList<ContentValues> results = new ArrayList<ContentValues>();
 		curs.moveToFirst();
 		while(!curs.isAfterLast()){
-			Bundle tempBundle = new Bundle();
+			ContentValues tempBundle = new ContentValues();
 			for(int i=0;i<curs.getColumnCount();i++){
 				String colName=curs.getColumnName(i);
 				String colValue=curs.getString(i);
-				tempBundle.putString(colName,colValue);
+				tempBundle.put(colName,colValue);
 			}
 			results.add(tempBundle);
 			curs.moveToNext();
@@ -53,8 +53,20 @@ public class dbHelper extends SQLiteOpenHelper
 		return results;
 	}
 
-	public Bundle loadDataById(String table, int id){
-		return null;
+	public ContentValues loadDataById(String table, int id){
+		SQLiteDatabase db = getReadableDatabase();
+		Cursor curs = db.rawQuery("SELECT * FROM "+table+" WHERE id="+id,null);
+		curs.moveToFirst();
+		if (curs.getCount()!=1){
+			return null;
+		}
+		ContentValues results = new ContentValues();
+		for(int i=0;i<curs.getColumnCount();i++){
+			String colName = curs.getColumnName(i);
+			String colData = curs.getString(i);
+			results.put(colName,colData);
+		}
+		return results;
 	}
 
 	public void setupTables(SQLiteDatabase db){
