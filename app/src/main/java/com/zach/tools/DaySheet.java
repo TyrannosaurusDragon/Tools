@@ -8,15 +8,15 @@ import android.widget.*;
 
 public class DaySheet extends Activity
 {
-	private Date date;
+	private CalendarDate cd;
 	private dbHelper dbhelp;
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.daysheet);
-		Long temptime = getIntent().getLongExtra("date",0);
-		date = new Date(temptime);
+		int temptime = getIntent().getIntExtra("date",0);
+		cd = new CalendarDate(temptime);
 		dbhelp=new dbHelper(this);
 	}
 	

@@ -12,7 +12,7 @@ import android.widget.CalendarView.*;
 import android.widget.DatePicker.*;
 import java.util.HashMap;
 import com.zach.tools.Reference.Constants;
-import java.util.Date;
+import com.zach.tools.Reference.*;
 
 
 public class MainActivity extends Activity 
@@ -44,11 +44,8 @@ public class MainActivity extends Activity
 	private void dateClicked(int year, int month, int dayofmonth){
 	
 		Intent daySheet = new Intent(MainActivity.this,DaySheet.class);
-		Date date = new Date();
-		date.setYear(year);
-		date.setMonth(month);
-		date.setDate(dayofmonth);
-		daySheet.putExtra("date",date.getTime());
+		CalendarDate cdate = new CalendarDate(year,month,dayofmonth);
+		daySheet.putExtra("date",cdate.getTimeStamp());
 		startActivity(daySheet);
 	}
 }
