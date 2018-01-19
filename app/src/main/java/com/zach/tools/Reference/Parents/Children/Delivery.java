@@ -1,20 +1,21 @@
 package com.zach.tools.Reference.Parents.Children;
 import android.content.*;
+import java.sql.*;
 
 public class Delivery {
 	private ContentValues data;
 	private int id=-1;
 	
-	public Delivery(ContentValues... cv){
-		if(cv.length!=0){
-			data=cv[0];
-			if(data.containsKey("id")){
-				this.id = data.get("id");
-				data.remove("id");
-			} else {
-				data = new ContentValues();
-			}
+	public Delivery(ContentValues cv){
+		data=cv;
+		if(data.containsKey("id")){
+			this.id = data.get("id");
+			data.remove("id");
 		}
+	}
+
+	public ContentValues getCv(){
+		return data;
 	}
 	
 	public void setValue(String key, String value){

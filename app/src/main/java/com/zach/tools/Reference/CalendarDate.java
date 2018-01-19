@@ -1,44 +1,48 @@
 package com.zach.tools.Reference;
+import com.zach.tools.*;
 
 public class CalendarDate
 {
-	private int cDateStamp;
 	private int year;
 	private int month;
 	private int day;
 	
-	public CalendarDate(int year, int month, int day){
-		this.year=year;
-		this.month=month;
-		this.day=day;
-		cDateStamp = dateCombiner(this.year,this.month,this.day);
+	public CalendarDate(int years, int months, int days){
+		this.year=years;
+		this.month=months;
+		this.day=days;
 	}
 	
-	public CalendarDate(int cstamp){
+	public CalendarDate(String cstamp){
 		int[] temp = dateUnwinder(cstamp);
-		new CalendarDate(temp[0],temp[1],temp[2]);
+		this.year=temp[0];
+		this.month=temp[1];
+		this.day=temp[2];
 	}
 	
-	public static int[] dateUnwinder(int full){
-		String tempString = Integer.toString(full);
-		char[] tempChar = tempString.toCharArray();
-		char[] tempYear = {tempChar[0],tempChar[1],tempChar[2],tempChar[3]};
-		char[] tempMonth = {tempChar[4],tempChar[5]};
-		char[] tempDay = {tempChar[6],tempChar[7]};
-		int yS = Integer.parseInt(String.copyValueOf(tempYear));
-		int mS = Integer.parseInt(String.copyValueOf(tempMonth));
-		int dS = Integer.parseInt(String.copyValueOf(tempDay));
+	public static int[] dateUnwinder(String full){
+		int yS = Integer.parseInt(full.substring(0,4));
+		int mS = Integer.parseInt(full.substring(4,6));
+		int dS = Integer.parseInt(full.substring(6,8));
 		int[] jesus = {yS,mS,dS};
 		return jesus;
 	}
 	
-	public static int dateCombiner(int y, int m, int d){
-		String temp = y+""+m+""+d;
-		return Integer.parseInt(temp);
+	public static String dateCombiner(int y, int m, int d){
+		String ms = Integer.toString(m);
+		String ds = Integer.toString(d);
+		if(m<10){
+			ms="0"+ms;
+		}
+		if(d<10){
+			ds="0"+ds;
+		}
+		String temp = y+""+ms+""+ds;
+		return temp;
 	}
 	
-	public int getTimeStamp(){
-		return cDateStamp;
+	public String getTimeStamp(){
+		return dateCombiner(year,month,day);
 	}
 	
 	public int getYear(){

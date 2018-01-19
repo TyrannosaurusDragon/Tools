@@ -35,6 +35,25 @@ public class dbHelper extends SQLiteOpenHelper
 		db.insert(table,null,bndl);
 	}
 
+	public ArrayList<ContentValues> loadDataByColumn(String table, String column, String data){
+		SQLiteDatabase db = getReadableDatabase();
+		Cursor curs = db.rawQuery("SELECT * FROM "+table+" WHERE "+column+
+		"="+data,null);
+		ArrayList<ContentValues> results = new ArrayList<ContentValues>();
+		curs.moveToFirst();
+		while(!curs.isAfterLast()){
+			ContentValues tempBundle = new ContentValues();
+			for(int i=0;i<curs.getColumnCount();i++){
+				String colName=curs.getColumnName(i);
+				String colValue=curs.getString(i);
+				tempBundle.put(colName,colValue);
+			}
+			results.add(tempBundle);
+			curs.moveToNext();
+		}
+		return results;
+	}
+
 	public ArrayList<ContentValues> loadData(String table){ 
 		SQLiteDatabase db = getReadableDatabase();
 		Cursor curs = db.rawQuery("SELECT * FROM "+table,null);

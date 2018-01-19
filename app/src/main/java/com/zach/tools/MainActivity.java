@@ -13,10 +13,13 @@ import android.widget.DatePicker.*;
 import java.util.HashMap;
 import com.zach.tools.Reference.Constants;
 import com.zach.tools.Reference.*;
+import android.content.*;
+import android.util.*;
 
 
 public class MainActivity extends Activity 
 {
+	private static MainActivity ma;
 	DatePicker cal;
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -26,6 +29,7 @@ public class MainActivity extends Activity
 	
 		Calendar today = Calendar.getInstance();
 		cal = (DatePicker)findViewById(R.id.calendar);
+		ma=this;
 	
 		cal.init( today.get(Calendar.YEAR),
 			today.get(Calendar.MONTH),
@@ -44,8 +48,11 @@ public class MainActivity extends Activity
 	private void dateClicked(int year, int month, int dayofmonth){
 	
 		Intent daySheet = new Intent(MainActivity.this,DaySheet.class);
-		CalendarDate cdate = new CalendarDate(year,month,dayofmonth);
-		daySheet.putExtra("date",cdate.getTimeStamp());
+		daySheet.putExtra("date",CalendarDate.dateCombiner(year,month,dayofmonth));
 		startActivity(daySheet);
+	}
+
+	public static Context getAppContext(){
+		return ma.getApplicationContext();
 	}
 }
