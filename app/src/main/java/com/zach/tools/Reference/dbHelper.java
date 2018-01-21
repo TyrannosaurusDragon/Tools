@@ -1,7 +1,6 @@
 package com.zach.tools.Reference;
 import android.database.sqlite.*;
 import android.content.*;
-import android.os.*;
 import android.database.*;
 import java.util.*;
 
@@ -51,6 +50,7 @@ public class dbHelper extends SQLiteOpenHelper
 			results.add(tempBundle);
 			curs.moveToNext();
 		}
+		curs.close();
 		return results;
 	}
 
@@ -69,6 +69,7 @@ public class dbHelper extends SQLiteOpenHelper
 			results.add(tempBundle);
 			curs.moveToNext();
 		}
+		curs.close();
 		return results;
 	}
 
@@ -85,6 +86,7 @@ public class dbHelper extends SQLiteOpenHelper
 			String colData = curs.getString(i);
 			results.put(colName,colData);
 		}
+		curs.close();
 		return results;
 	}
 

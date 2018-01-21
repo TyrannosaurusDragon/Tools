@@ -9,7 +9,7 @@ public class Delivery {
 	public Delivery(ContentValues cv){
 		data=cv;
 		if(data.containsKey("id")){
-			this.id = data.get("id");
+			this.id = (Integer)data.get("id");
 			data.remove("id");
 		}
 	}
